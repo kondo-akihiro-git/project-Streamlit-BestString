@@ -1,51 +1,53 @@
+# routing/routing.py
 import streamlit as st
+from logic.top_logic import get_user
 from page.top_page import show as top
 from page.dashboard_page import show as dashboard
 from page.record_page import show as record
 from page.analysis_page import show as analysis
 
-
+# -----------------------
+# ルーター本体
+# -----------------------
 def router():
-    # URLパラメータ取得
-    query = st.query_params
-    page = query.get("page", None)
+
+    token = st.query_params.get("token")
 
     # -----------------------
-    # トップ
+    # ① トップ（tokenなし）
     # -----------------------
-    if page is None:
+    if not token:
         top()
         return
 
     # -----------------------
-    # ルーティング
+    # ② tokenチェック
+    # -----------------------
+    user = get_user(token)
+
+    if not user:
+        st.query_params.clear()
+        top()
+        return
+
+    # -----------------------
+    # ③ ユーザー確定
+    # -----------------------
+    st.session_state["user"] = user
+
+    # -----------------------
+    # ④ メニュー
     # -----------------------
     st.sidebar.title("メニュー")
 
-    if st.sidebar.button("dashboard"):
-        st.query_params["page"] = "dashboard"
-        st.rerun()
-
-    if st.sidebar.button("record"):
-        st.query_params["page"] = "record"
-        st.rerun()
-
-    if st.sidebar.button("analysis"):
-        st.query_params["page"] = "analysis"
-        st.rerun()
+    menu = st.radio("ページ", ["dashboard", "record", "analysis"])
 
     # -----------------------
-    # ページ分岐
+    # ⑤ 画面表示
     # -----------------------
-    if page == "dashboard":
+    if menu == "dashboard":
         dashboard()
-
-    elif page == "record":
+    elif menu == "record":
         record()
-
-    elif page == "analysis":
-        analysis()
-
     else:
-        st.write("存在しないページです")
-        top()
+        analysis()
