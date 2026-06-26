@@ -12,14 +12,12 @@ class User(SQLModel, table=True):
 
 class Racket(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    user_id: int  # 所有者（重要）
     name: str
     brand: str
     created_at: datetime = Field(default_factory=datetime.now)
 
 class Strand(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    user_id: int
     name: str
     brand: str
     price: int
