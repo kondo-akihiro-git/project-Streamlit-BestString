@@ -8,15 +8,11 @@ from word.state_word import USER_STATE
 
 def show():
     user = st.session_state.get(USER_STATE)
-
     st.title("ダッシュボード")
-
     if not user:
         st.error("ユーザー情報がありません")
         return
-
     records = get_records(user.id)
-
     if not records:
         st.info("まだ記録がありません")
         return
@@ -31,23 +27,14 @@ def show():
                 with mui.Grid(item=True, xs=12, sm=6):
                     with mui.Card():
                         with mui.CardContent():
-                            vertical = r["vertical_strand"]
-                            horizontal = r["horizontal_strand"]
-
-                            if vertical == horizontal:
-                                mui.Typography(
-                                    f"{vertical}",
-                                    variant="body2",
-                                )
-                            else:
-                                mui.Typography(
-                                    f"縦ガット: {vertical}",
-                                    variant="body2",
-                                )
-                                mui.Typography(
-                                    f"横ガット: {horizontal}",
-                                    variant="body2",
-                                )
+                            with mui.Box(sx={"minHeight": 50,}):
+                                vertical = r["vertical_strand"]
+                                horizontal = r["horizontal_strand"]
+                                if vertical == horizontal:
+                                    mui.Typography(f"{vertical}",variant="body2")
+                                else:
+                                    mui.Typography(f"縦ガット: {vertical}",variant="body2")
+                                    mui.Typography(f"横ガット: {horizontal}",variant="body2")
                             with mui.Box(
                                 sx={
                                     "backgroundImage": (f"url({r['vertical_image']})"),
@@ -58,7 +45,6 @@ def show():
                                 }
                             ):
                                 pass
-
                             mui.Divider()
                             mui.Typography(f"ラケット: {r['racket']}",variant="body2")
                             mui.Typography(f"張った日: {r['set_date']}",variant="body2")

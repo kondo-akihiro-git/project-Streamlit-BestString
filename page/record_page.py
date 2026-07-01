@@ -15,7 +15,7 @@ def show():
         return
 
     # -----------------------
-    # DB取得（選択肢）
+    # DB取得
     # -----------------------
     rackets = get_rackets()
     strands = get_strands()
@@ -46,17 +46,9 @@ def show():
     if horizontal_name == "未選択":
         horizontal_id = None
 
-    # -----------------------
-    # 日付（None OK）
-    # -----------------------
     set_date = st.date_input("張った日", value=None)
     break_date = st.date_input("切れた日", value=None)
-
-    # -----------------------
-    # 数値系
-    # -----------------------
     tension = st.number_input("テンション", min_value=0, step=1)
-    # cost_raw = st.text_input("金額")
     cost = st.number_input("金額", min_value=0, step=100, value=0)
     memo = st.text_area("打感メモ")
     rating = st.slider("評価", 1, 10, 5)
@@ -64,18 +56,14 @@ def show():
     # -----------------------
     # 登録
     # -----------------------
-    show_success = False
     if st.button("登録する"):
-
         cost = None if cost == 0 else cost
         if racket_name == "未選択":
             st.error("ラケットは必須です")
             st.stop()
-
         if vertical_name == "未選択":
             st.error("縦ストリングは必須です")
             st.stop()
-
         if horizontal_name == "未選択":
             st.error("横ストリングは必須です")
             st.stop()
@@ -92,10 +80,5 @@ def show():
             memo=memo if memo else None,
             rating=rating,
         )
-
-        show_success = True
-        st.rerun()
-
-    if show_success:
         st.success("登録完了")
 

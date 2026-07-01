@@ -1,12 +1,13 @@
 # routing/routing.py
 import streamlit as st
+from streamlit_elements import elements, mui, sync
 from logic.top_logic import get_user
 from page.top_page import show as top
 from page.dashboard_page import show as dashboard
 from page.record_page import show as record
 from page.analysis_page import show as analysis
-from word.routing_word import ANALYSIS, DASHBOARD, MENU, RECORD
-from word.state_word import TOKEN_STATE, USER_STATE
+from word.routing_word import ANALYSIS_BUTTON, ANALYSIS_PAGE, DASHBOARD_BUTTON, DASHBOARD_PAGE, RECORD_BUTTON, RECORD_PAGE
+from word.state_word import PAGE_STATE, TOKEN_STATE, USER_STATE
 
 # -----------------------
 # ルーター本体
@@ -28,15 +29,39 @@ def router():
         st.query_params.clear()
         top()
         return
+    st.session_state[USER_STATE] = user
 
     # -----------------------
-    # ③ ユーザー有りはメニュー遷移
+    # 初期値
     # -----------------------
-    st.session_state[USER_STATE] = user
-    tab1, tab2, tab3 = st.tabs([DASHBOARD, RECORD, ANALYSIS])
-    with tab1:
+    if st.session_state.get(PAGE_STATE) is None:
+        st.session_state[PAGE_STATE] = DASHBOARD_PAGE
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        is_active = st.session_state[PAGE_STATE] == DASHBOARD_PAGE
+        if st.button(DASHBOARD_BUTTON, use_container_width=True, type="primary" if is_active else "secondary"):
+            st.session_state[PAGE_STATE] = DASHBOARD_PAGE
+            st.rerun()
+
+    with col2:
+        is_active = st.session_state[PAGE_STATE] == RECORD_PAGE
+        if st.button(RECORD_BUTTON, use_container_width=True, type="primary" if is_active else "secondary"):
+            st.session_state[PAGE_STATE] = RECORD_PAGE
+            st.rerun()
+
+    with col3:
+        is_active = st.session_state[PAGE_STATE] == ANALYSIS_PAGE
+        if st.button(ANALYSIS_BUTTON, use_container_width=True, type="primary" if is_active else "secondary"):
+            st.session_state[PAGE_STATE] = ANALYSIS_PAGE
+            st.rerun()
+
+    # -----------------------
+    # ルーティング
+    # -----------------------
+    if st.session_state[PAGE_STATE] == DASHBOARD_PAGE:
         dashboard()
-    with tab2:
+    elif st.session_state[PAGE_STATE] == RECORD_PAGE:
         record()
-    with tab3:
+    elif st.session_state[PAGE_STATE] == ANALYSIS_PAGE:
         analysis()

@@ -5,11 +5,11 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 load_dotenv()
 
-BASE_URL = os.getenv("YONEX_RACKET_URL")
+YONEX_RACKET_URL = os.getenv("YONEX_RACKET_URL")
 LIMIT = 12
 
 def fetch_html(offset: int = 0):
-    url = f"{BASE_URL}&offset={offset}&limit={LIMIT}"
+    url = f"{YONEX_RACKET_URL}&offset={offset}&limit={LIMIT}"
     res = requests.get(url)
     res.raise_for_status()
     return res.text
