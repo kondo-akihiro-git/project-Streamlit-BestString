@@ -20,7 +20,7 @@ class Strand(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
     brand: str
-    price: int
+    image_url: str | None = None
     created_at: datetime = Field(default_factory=datetime.now)
 
 class Record(SQLModel, table=True):

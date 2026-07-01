@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 load_dotenv()
 
-BASE_URL = os.getenv("YONEX_URL")
+BASE_URL = os.getenv("YONEX_RACKET_URL")
 LIMIT = 12
 
 def fetch_html(offset: int = 0):

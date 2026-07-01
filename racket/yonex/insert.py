@@ -1,4 +1,4 @@
-# racket/insert.py
+# racket/yonex/nsert.py
 from sqlmodel import Session, select
 from model.init import engine
 from model.model import Racket
