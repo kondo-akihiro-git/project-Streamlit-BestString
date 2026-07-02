@@ -1,4 +1,4 @@
 __pycache__/
 virtual_environment/
-database/
+app.db
 .env
