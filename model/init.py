@@ -5,9 +5,6 @@ from dotenv import load_dotenv
 from model.model import *
 from sqlmodel import Session
 
-from racket.yonex.insert import insert_rackets
-from strand.yonex.insert import insert_strands
-
 # =====================
 # env
 # =====================
@@ -21,6 +18,8 @@ engine = create_engine(DATABASE_URL, echo=False)
 # =====================
 def init_database():
     SQLModel.metadata.create_all(engine)
+    from racket.yonex.insert import insert_rackets
+    from strand.yonex.insert import insert_strands
     insert_rackets()
     insert_strands()
 
