@@ -1,6 +1,7 @@
 # racket/yonex/nsert.py
 from sqlmodel import Session, select
-from model.init import engine
+# from model.init import engine
+from model.init import get_database_session
 from model.model import Racket
 from racket.yonex.scraper import fetch_all
 
@@ -9,7 +10,7 @@ BRAND = "YONEX"
 
 def insert_rackets():
     data = fetch_all()
-    with Session(engine) as session:
+    with get_database_session() as session:
         for d in data:
             # -----------------------
             # 重複チェック
