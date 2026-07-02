@@ -15,7 +15,7 @@ from word.state_word import PAGE_STATE, TOKEN_STATE, USER_STATE
 def router():
     st.set_page_config(
         page_title="BestString",
-        page_icon="🎾"
+        page_icon="picture/ball.png"
     )
     # -----------------------
     # ① token無しはトップ遷移
